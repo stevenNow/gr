@@ -10,11 +10,30 @@ const API = "http://localhost:4000";
 export default function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [name, setName] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editName, setEditName] = useState("");
 
   const loadProducts = async () => {
     const res = await fetch(`${API}/products`);
     const data = await res.json();
     setProducts(data);
+  };
+
+  const startEdit = (p: Product) => {
+    setEditingId(p.id);
+    setEditName(p.name);
+  };
+
+  const saveEdit = async (id: number) => {
+    await fetch(`http://localhost:4000/products/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: editName }),
+    });
+
+    setEditingId(null);
+    setEditName("");
+    loadProducts();
   };
 
   useEffect(() => {
@@ -52,7 +71,21 @@ export default function App() {
       <ul>
         {products.map((p) => (
           <li key={p.id}>
-            <strong>{p.name}</strong> (ID: {p.id})
+            {editingId === p.id ? (
+              <>
+                <input
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                />
+                <button onClick={() => saveEdit(p.id)}>Save</button>
+                <button onClick={() => setEditingId(null)}>Cancel</button>
+              </>
+            ) : (
+              <>
+                {p.id}: {p.name}
+                <button style={{ marginLeft: 12 }} onClick={() => startEdit(p)}>Edit</button>
+              </>
+            )}
           </li>
         ))}
       </ul>

@@ -32,6 +32,23 @@ app.post("/products", async (req, res) => {
   res.status(201).json(product);
 });
 
+// UPDATE product
+app.put("/products/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { name } = req.body;
+
+    const updated = await prisma.product.update({
+      where: { id },
+      data: { name },
+    });
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update product" });
+  }
+});
+
 app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });
