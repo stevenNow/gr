@@ -24,6 +24,18 @@ export default function App() {
     setEditName(p.name);
   };
 
+  const handleDelete = async (id: number) => {
+    const ok = window.confirm("Are you sure you want to delete this product?");
+
+    if (!ok) return;
+
+    await fetch(`http://localhost:4000/products/${id}`, {
+      method: "DELETE",
+    });
+
+    loadProducts();
+};
+
   const saveEdit = async (id: number) => {
     await fetch(`http://localhost:4000/products/${id}`, {
       method: "PUT",
@@ -84,6 +96,7 @@ export default function App() {
               <>
                 {p.id}: {p.name}
                 <button style={{ marginLeft: 12 }} onClick={() => startEdit(p)}>Edit</button>
+                <button style={{ marginLeft: 12 }} onClick={() => handleDelete(p.id)}>Delete</button>
               </>
             )}
           </li>

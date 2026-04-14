@@ -49,6 +49,17 @@ app.put("/products/:id", async (req, res) => {
   }
 });
 
+// DELETE product
+app.delete("/products/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  await prisma.product.delete({
+    where: { id },
+  });
+
+  res.json({ success: true });
+});
+
 app.listen(4000, () => {
   console.log("Server running on http://localhost:4000");
 });
