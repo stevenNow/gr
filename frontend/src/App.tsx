@@ -13,9 +13,10 @@ export default function App() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editName, setEditName] = useState("");
   const [sortDirection, setSortDirection] = useState("asc")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const loadProducts = async () => {
-    const res = await fetch(`${API}/products/?sort=${sortDirection}`);
+    const res = await fetch(`${API}/products/?sort=${sortDirection}&search=${searchTerm}`);
     const data = await res.json();
     setProducts(data);
   };
@@ -80,6 +81,13 @@ export default function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1>Products</h1>
+
+      <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search"
+        />
+        <button disabled={!searchTerm.trim()} onClick={loadProducts}>Search</button>
 
       <button onClick={sortHandler}>Sort</button>
 

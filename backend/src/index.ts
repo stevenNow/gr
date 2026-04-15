@@ -10,9 +10,16 @@ app.use(express.json());
 
 // GET all products
 app.get("/products", async (req, res) => {
+  const search = req.query.search as string | undefined;
   const products = await prisma.product.findMany({
     orderBy: {
       name: req.query.sort === "desc" ? "desc" : "asc",
+    },
+    where: {
+      name: {
+        contains: search,
+        mode: "insensitive",
+      },
   },
   });
 
