@@ -99,11 +99,12 @@ To add a field:
 4. Update frontend
 
 Prisma actions:
-
-Create	prisma.product.create({ data })
-Read all	prisma.product.findMany()
-Read one	prisma.product.findUnique({ where })
-Update	prisma.product.update({ where, data })
-Delete	prisma.product.delete({ where })
+<ul>
+<li>Create	prisma.product.create({ data })</li>
+<li>Read all	prisma.product.findMany()</li>
+<li>Read one	prisma.product.findUnique({ where })</li>
+<li>Update	prisma.product.update({ where, data })</li>
+<li>Delete	prisma.product.delete({ where })</li>
+</ul>
 
 
