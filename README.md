@@ -38,8 +38,8 @@ DB config:
 ```bash
 cd backend
 npm install
-npx prisma generate
 npx prisma migrate dev --name init
+npx prisma generate
 npm run dev
 ```
 
@@ -50,8 +50,8 @@ http://localhost:4000
 
 ### API
 <ul>
-<li>GET /products → list products</li>
-<li>POST /products → create product { name }</li>
+<li>GET /products -> list products</li>
+<li>POST /products -> create product { name }</li>
 </ul>
 
 ## Frontend Setup
@@ -76,15 +76,31 @@ http://localhost:5173
 React -> Express -> Prisma -> Postgres
 
 ## Notes
-<ul>
-<li>Minimal CRUD only (create + list)</li>
-<li>Prisma used for type-safe DB access</li>
-</ul>
 
-Update
+### Prisma Notes
 
-Delete
+To create DB from prisma schema:
+```bash
+npx prisma migrate dev --name init
+```
 
-Test frameworks
+To generate the prisma client:
+```bash
+npx prisma generate
+```
+
+To add a field:
+1. Update schema.prisma with new field: price Float @default(0)
+2. migrate
+3. Update backend
+4. Update frontend
+
+Prisma actions:
+
+Create	prisma.product.create({ data })
+Read all	prisma.product.findMany()
+Read one	prisma.product.findUnique({ where })
+Update	prisma.product.update({ where, data })
+Delete	prisma.product.delete({ where })
 
 
