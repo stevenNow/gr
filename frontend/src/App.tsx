@@ -12,9 +12,10 @@ export default function App() {
   const [name, setName] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editName, setEditName] = useState("");
+  const [sortDirection, setSortDirection] = useState("asc")
 
   const loadProducts = async () => {
-    const res = await fetch(`${API}/products`);
+    const res = await fetch(`${API}/products/?sort=${sortDirection}`);
     const data = await res.json();
     setProducts(data);
   };
@@ -36,11 +37,20 @@ export default function App() {
     loadProducts();
 };
 
+  const sortHandler = () => {
+    if(sortDirection === "asc") {
+      setSortDirection("desc");
+    } else {
+      setSortDirection("asc")
+    }
+    loadProducts();    
+  }
+
   const saveEdit = async (id: number) => {
     await fetch(`http://localhost:4000/products/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: editName }),
+      body: JSON.stringify({ name: editName}),
     });
 
     setEditingId(null);
@@ -70,6 +80,8 @@ export default function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1>Products</h1>
+
+      <button onClick={sortHandler}>Sort</button>
 
       <div style={{ marginBottom: 12 }}>
         <input

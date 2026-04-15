@@ -9,9 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 // GET all products
-app.get("/products", async (_req, res) => {
+app.get("/products", async (req, res) => {
   const products = await prisma.product.findMany({
-    orderBy: { id: "asc" },
+    orderBy: {
+      name: req.query.sort === "desc" ? "desc" : "asc",
+  },
   });
 
   res.json(products);
