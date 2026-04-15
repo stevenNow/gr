@@ -35,6 +35,9 @@ DB config:
 
 ## Backend Setup
 
+Create an .env file in backend dir with the following content:
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/products_db"
+
 ```bash
 cd backend
 npm install
